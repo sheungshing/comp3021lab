@@ -68,7 +68,7 @@ public class NoteBook {
 		List<Note> tempNotes = new ArrayList<Note>();
 		for (Folder tempFolder : folders) {
 
-			List<Note> callList = tempFolder.searchNotes(keywords);
+			List<Note> callList = tempFolder.searchNotes2(keywords);
 			for(Note temp: callList) {
 				tempNotes.add(temp);
 			}

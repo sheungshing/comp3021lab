@@ -31,166 +31,115 @@ public class Folder implements Comparable<Folder> {
         // System.out.println("gooo");
     }
 
-    // public List<Note> searchNotes2(String keywords) {
+    public List<Note> searchNotes2(String keywords) {
 
-    //     List<Note> noteReturn = new ArrayList<Note>(); // for the return result
-    //     keywords = keywords.toLowerCase();
-    //     String[] orFilter = keywords.split(" ");
-    //     List<String> andArr = new ArrayList<String>(); // and list
-    //     List<String> orArr = new ArrayList<String>(); // or list
-
-    //     // add to or lists
-    //     int i = 0;
-    //     while (i < orFilter.length - 1) {
-    //         if (orFilter[i + 1].equals("or")) {
-    //             orArr.add(orFilter[i]);
-    //             orArr.add(orFilter[i + 2]);
-    //             i = i + 3;
-    //         } else {
-    //             andArr.add(orFilter[i]);
-    //             i++;
-    //         }
-    //     }
-    //     //// add to and lists
-    //     // i = 0;
-    //     // while (i < orFilter.length - 1) {
-    //     // if (!(orFilter[i + 1].equals("or")) && !(orFilter[i].equals("or"))) {
-    //     // andArr.add(orFilter[i]);
-    //     // andArr.add(orFilter[i + 1]);
-
-    //     // } else {
-
-    //     // }
-    //     // i++;
-
-    //     // }
-
-    //     System.out.println("And: ");
-    //     for (String and : andArr) {
-    //         System.out.println(and);
-    //     }
-
-    //     System.out.println("Or: ");
-    //     for (String or : orArr) {
-    //         System.out.println(or);
-    //     }
-
-    //     for (Note loopNote : notes) {
-    //         // ImageNote
-    //         if (loopNote instanceof ImageNote) {
-    //             boolean andState = false;
-    //             for (String and : andArr) {
-    //                 if (!(((ImageNote) loopNote).getTitle().toLowerCase().contains(and))) {
-    //                     andState = true;
-    //                     break;
-    //                 }
-    //             }
-    //             if (andState == false) {
-    //                 for (String or : orArr) {
-    //                     if (((ImageNote) loopNote).getTitle().toLowerCase().contains(or)) {
-
-    //                         noteReturn.add(loopNote);
-    //                         break;
-
-    //                     }
-    //                 }
-    //             }
-
-    //         } else if (loopNote instanceof TextNote) { // TextNote
-    //             boolean andState = false;
-    //             for (String and : andArr) {
-    //                 if (!((TextNote) loopNote).getContent().toLowerCase().contains(and)
-    //                         || !((TextNote) loopNote).getTitle().toLowerCase().contains(and)) {
-    //                     andState = true;
-    //                     break;
-    //                 }
-    //             }
-    //             if (andState == false) {
-    //                 for (String or : orArr) {
-    //                     if (((TextNote) loopNote).getContent().toLowerCase().contains(or)
-    //                             || ((TextNote) loopNote).getTitle().toLowerCase().contains(or)) {
-    //                         System.out.println("now: " + or + "\t" + orArr.get(orArr.size() - 1));
-    //                         noteReturn.add(loopNote);
-    //                         break;
-
-    //                     }
-    //                 }
-
-    //             }
-    //         }
-
-    //     }
-
-    //     return noteReturn;
-
-    // }
-
-    public List<Note> searchNotes(String keywords) {
-        List<Note> returnNote = new ArrayList<Note>();
+        List<Note> noteReturn = new ArrayList<Note>(); // for the return result
         keywords = keywords.toLowerCase();
-        String[] wordsFilter = keywords.split(" ");
-        ArrayList<String> wordlist = new ArrayList<String>();
+        String[] orFilter = keywords.split(" ");
+        List<String> andArr = new ArrayList<String>(); // and list
+        List<String> orArr = new ArrayList<String>(); // or list
 
+        // add to or lists
         int i = 0;
-        while (i < wordsFilter.length) {
-            if (wordsFilter[i + 1].equals("or")) {
-                wordlist.add(wordsFilter[i] + " " + wordsFilter[i + 2]); // add OR to
+        while (i < orFilter.length - 1) {
+            if (orFilter[i + 1].equals("or")) {
+                orArr.add(orFilter[i]);
+                orArr.add(orFilter[i + 2]);
                 i = i + 3;
             } else {
-                wordlist.add(wordsFilter[i]); // add And to words
-                i = i + 1;
+                //andArr.add(orFilter[i]);
+                i++;
             }
         }
+        //// add to AND lists
+        i = 0;
+        while (i < orFilter.length - 1) {
+        if (!(orFilter[i + 1].equals("or")) && !(orFilter[i].equals("or"))) {
+        andArr.add(orFilter[i]);
+        andArr.add(orFilter[i + 1]);
 
-        // Search
-        for (Note temp : notes) {
-            for (String word : wordlist) {
-                // OR
-                if (word.contains(" ")) {
-                    String word1 = word.substring(0, word.indexOf(" "));
-                    String word2 = word.substring(word.indexOf(" ") + 1);
-                    if (temp instanceof TextNote) {
-                        if (temp.getTitle().toLowerCase().contains(word1)
-                                || temp.getTitle().toLowerCase().contains(word2)
-                                || ((TextNote) temp).getContent().toLowerCase().contains(word1)
-                                || ((TextNote) temp).getContent().toLowerCase().contains(word2)) {
-                            // for (String t : wordlist) {
-                            // System.out.println(t);
-                            // }
-                            // System.out.println(word + "////" + wordlist.get(wordlist.size() - 1));
-                            if (word.compareTo(wordlist.get(wordlist.size() - 1)) == 0) {
-                                // System.out.println(word + "////" + wordlist.get(wordlist.size() - 1));
-                                returnNote.add(temp);
-                            }
-                        }
+        } 
+        i++;
 
-                    } else if (temp.getTitle().toLowerCase().contains(word1)
-                            || temp.getTitle().toLowerCase().contains(word2)) {
-                        if (word.compareTo(wordlist.get(wordlist.size() - 1)) == 0)
-                            returnNote.add(temp);
-                    }
-
-                }
-
-                // AND
-                else {
-                    if (temp instanceof TextNote) {
-                        if (temp.getTitle().toLowerCase().contains(word)
-                                || ((TextNote) temp).getContent().toLowerCase().contains(word)) {
-                            if (word.compareTo(wordlist.get(wordlist.size() - 1)) == 0)
-                                returnNote.add(temp);
-                        }
-
-                    } else {
-                        if (temp.getTitle().toUpperCase().contains(word)) {
-                            if (word.compareTo(wordlist.get(wordlist.size() - 1)) == 0)
-                                returnNote.add(temp);
-                        }
-                    }
-                }
-            }
         }
-        return returnNote;
+
+       
+        for (Note loopNote : notes) {
+            // ImageNote
+            if (loopNote instanceof ImageNote) {
+            	boolean orPass = false;
+            	//System.out.println("andArr size:"+ andArr.size() );
+            	//System.out.println("ordArr size:"+ orArr.size() );
+            	
+            	//if no AND case
+            	if(andArr.size() ==0) {
+            		for(int k =0; k < orArr.size();k++) {
+                		if( ((ImageNote)loopNote).getTitle().toLowerCase().contains(orArr.get(k))) {
+                			//System.out.println("time:"+ k);
+                			orPass = true;
+                			break;
+                		}
+                	}
+            	}
+            	
+            	//if there are AND case
+                for(int j = 0; j< andArr.size();j++) {
+                	//System.out.println("time:"+ j);
+                	for(int k =0; k < orArr.size();k+=2) {
+                		if( ((ImageNote)loopNote).getTitle().toLowerCase().contains(orArr.get(k)) 
+                			||((ImageNote)loopNote).getTitle().toLowerCase().contains(orArr.get(k+1))) {
+                			//System.out.println("time:"+ k);
+                			orPass = true;
+                		}else {
+							orPass = false;
+						}
+                	}
+                	
+                }
+                if(orPass == true)
+            		noteReturn.add(loopNote);
+
+            } else if (loopNote instanceof TextNote) { // TextNote
+            	boolean orPass = false;
+            	//System.out.println("andArr size:"+ andArr.size() );
+//            	System.out.println("ordArr size:"+ orArr.size() );
+            	//if no AND case
+            	if(andArr.size() ==0) {
+            		for(int k =0; k < orArr.size();k++) {
+                		if( ((TextNote)loopNote).getTitle().toLowerCase().contains(orArr.get(k))
+                				||((TextNote)loopNote).getContent().toLowerCase().contains(orArr.get(k))) {
+                			//System.out.println("time:"+ k);
+                			orPass = true;
+                			break;
+                		}
+                	}
+            	}
+            	
+            	//if there are AND case
+                for(int j = 0; j< andArr.size();j++) {
+                	//System.out.println("time:"+ j);
+                	for(int k =0; k < orArr.size();k+=2) {
+                		if( ((TextNote)loopNote).getTitle().toLowerCase().contains(orArr.get(k)) 
+                			||((TextNote)loopNote).getTitle().toLowerCase().contains(orArr.get(k+1))
+                			||((TextNote)loopNote).getContent().toLowerCase().contains(orArr.get(k))
+                			||((TextNote)loopNote).getContent().toLowerCase().contains(orArr.get(k+1))) {
+                			//System.out.println("time:"+ k);
+                			orPass = true;
+                		}else {
+							orPass = false;
+						}
+                	}
+                	
+                }
+                if(orPass == true)
+            		noteReturn.add(loopNote);
+                
+            }
+
+        }
+
+        return noteReturn;
+
     }
 
     @Override
