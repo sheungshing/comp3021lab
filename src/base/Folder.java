@@ -31,7 +31,7 @@ public class Folder implements Comparable<Folder> {
         // System.out.println("gooo");
     }
 
-    public List<Note> searchNotes2(String keywords) {
+    public List<Note> searchNotes(String keywords) {
 
         List<Note> noteReturn = new ArrayList<Note>(); // for the return result
         keywords = keywords.toLowerCase();
