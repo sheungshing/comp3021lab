@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.io.Serializable;
 
-public class Folder implements Comparable<Folder> {
+public class Folder implements Comparable<Folder>,Serializable {
+    private static final long serialVersionUID = 1L;
     private ArrayList<Note> notes;
     private String name;
 
@@ -47,28 +49,27 @@ public class Folder implements Comparable<Folder> {
                 orArr.add(orFilter[i + 2]);
                 i = i + 3;
             } else {
-                //andArr.add(orFilter[i]);
+                andArr.add(orFilter[i]);
                 i++;
             }
         }
         //// add to AND lists
-        i = 0;
-        while (i < orFilter.length - 1) {
-        if (!(orFilter[i + 1].equals("or")) && !(orFilter[i].equals("or"))) {
-        andArr.add(orFilter[i]);
-        andArr.add(orFilter[i + 1]);
+        // i = 0;
+        // while (i < orFilter.length - 1) {
+        // if (!(orFilter[i + 1].equals("or")) && !(orFilter[i].equals("or"))) {
+        // andArr.add(orFilter[i]);
+        // andArr.add(orFilter[i + 1]);
+        // } 
+        // i++;
 
-        } 
-        i++;
-
-        }
+        // }
 
        
         for (Note loopNote : notes) {
             // ImageNote
             if (loopNote instanceof ImageNote) {
             	boolean orPass = false;
-            	//System.out.println("andArr size:"+ andArr.size() );
+            	System.out.println("andArr size:"+ andArr.size() );
             	//System.out.println("ordArr size:"+ orArr.size() );
             	
             	//if no AND case

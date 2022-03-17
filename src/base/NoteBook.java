@@ -1,15 +1,42 @@
 package base;
 
 import java.util.List;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.io.Serializable;
 
-public class NoteBook {
+public class NoteBook implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Folder> folders;
 
+
 	public NoteBook() {
+		
 		this.folders = new ArrayList<Folder>();
+	
+	}
+
+	public NoteBook(String file){
+			
+		FileInputStream fileIn =null;
+		ObjectInputStream objectIn =null;
+		try {
+			fileIn = new FileInputStream(file);
+			objectIn = new ObjectInputStream(fileIn);
+			NoteBook noteBook =  (NoteBook) objectIn.readObject();
+			this.folders = noteBook.getFolders();
+			objectIn.close();
+
+			}catch(Exception e){
+				return;
+			}
 	}
 
 	public boolean createTextNote(String folderName, String title, String content) {
@@ -77,5 +104,23 @@ public class NoteBook {
 		return tempNotes;
 
 	}
+
+	public boolean save(String file){
+		FileOutputStream fileOut =null;
+		ObjectOutputStream objectOut = null;
+		try{
+			 fileOut = new FileOutputStream(file);
+			objectOut  = new ObjectOutputStream(fileOut);
+			objectOut.writeObject(this);
+			objectOut.close();
+			
+		}catch(Exception e){
+			//e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	
 
 }
