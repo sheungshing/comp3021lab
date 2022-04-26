@@ -38,11 +38,18 @@ public class NoteBook implements Serializable{
 				return;
 			}
 	}
+	
+	public boolean createTextNote(String folderName, String title) {
+		TextNote note = new TextNote(title);
+		return insertNote(folderName, note);
+	}
 
 	public boolean createTextNote(String folderName, String title, String content) {
 		TextNote note = new TextNote(title, content);
 		return insertNote(folderName, note);
 	}
+	
+	
 
 	public boolean createImageNote(String folderName, String title) {
 		ImageNote note = new ImageNote(title);
@@ -120,6 +127,13 @@ public class NoteBook implements Serializable{
 		}
 		return true;
 	}
+	
+	public void addFolder(String folderName) {
+	    // TO DO 
+		Folder newFolder = new Folder(folderName);
+		this.folders.add(newFolder);
+	}
+
 
 	
 

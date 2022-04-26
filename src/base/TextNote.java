@@ -13,7 +13,12 @@ import java.io.FileWriter;
 public class TextNote extends Note {
 	//private static final long serialVersionUID = 1L;
 
-	private String content;
+	String content;
+	
+	public TextNote(String title) {
+		super(title);
+		this.content = null;
+	}
 
 	public TextNote(String title, String content) {
 		// TODO Auto-generated constructor stub
@@ -25,6 +30,10 @@ public class TextNote extends Note {
 		super(f.getName());
 		this.content = getTextFromFile(f.getAbsolutePath());
 
+	}
+	
+	public void setContent(String s) {
+		this.content = s;
 	}
 
 	public String getContent() {
